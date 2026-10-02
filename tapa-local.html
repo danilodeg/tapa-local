@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Armado de tapa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;700&family=Barlow:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@400;600&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,700&family=Oswald:wght@500;700&family=Public+Sans:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&family=UnifrakturMaguntia&family=Abril+Fatface&family=Archivo+Black&family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Lobster&family=Pirata+One&family=Playfair+Display:ital,wght@0,700;1,700&family=Righteous&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e4e6ea; --surface:#fff; --text:#1d2330; --muted:#5d6676; --line:#d2d6dd;
+  --accent:#2b59c3; --accent-ink:#fff; --warn:#a33a1a;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#14171c; --surface:#1e232a; --text:#e6e9ef; --muted:#9aa3b2; --line:#343a44;
+    --accent:#86a8ff; --accent-ink:#0d1220; --warn:#ff9f80;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171c; --surface:#1e232a; --text:#e6e9ef; --muted:#9aa3b2; --line:#343a44;
+  --accent:#86a8ff; --accent-ink:#0d1220; --warn:#ff9f80;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.45}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- App ---------- */
+.app{display:grid;grid-template-columns:1fr}
+@media (min-width:960px){.app{grid-template-columns:300px 1fr;align-items:start}}
+.panel{background:var(--surface);border-bottom:1px solid var(--line);padding:18px 18px 22px}
+@media (min-width:960px){
+  .panel{position:sticky;top:env(safe-area-inset-top,0px);height:calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow-y:auto;border-bottom:0;border-right:1px solid var(--line)}
+}
+.panel h1{font-size:1.25rem;margin:0 0 4px;letter-spacing:-.01em}
+.ayuda{color:var(--muted);font-size:.86rem;margin:0 0 18px}
+.grupo{margin:0 0 20px;padding:0;border:0}
+.grupo legend,.grupo>.tit{font-weight:700;font-size:.9rem;margin:0 0 8px;padding:0}
+.disenos{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media (min-width:960px){.disenos{grid-template-columns:1fr}}
+.diseno{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:transparent;cursor:pointer;text-align:left}
+.diseno[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);font-weight:600}
+.muestra{display:flex;flex:none;width:30px;height:18px;border-radius:3px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.muestra i{flex:1}
+.campo{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.paso{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--line)}
+.paso:first-of-type{border-top:0}
+.paso small{display:block;color:var(--muted);font-size:.78rem}
+.contador{display:flex;align-items:center;gap:2px}
+.contador button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-size:1.1rem;line-height:1}
+.contador button:disabled{opacity:.35;cursor:default}
+.contador output{min-width:28px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.botones{display:flex;flex-wrap:wrap;gap:6px}
+.btn{padding:9px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);cursor:pointer}
+.btn.prim{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.peligro{color:var(--warn)}
+.sub{display:flex;justify-content:space-between;font-size:.84rem;color:var(--muted);margin:10px 0 4px}
+.sub output{font-variant-numeric:tabular-nums}
+select.campo{cursor:pointer}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.color-fila{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.88rem}
+.color-fila span{flex:1}
+input[type=color]{width:38px;height:30px;border:1px solid var(--line);border-radius:6px;padding:2px;background:var(--bg);cursor:pointer}
+.btn.mini{padding:4px 8px;font-size:.78rem}
+.estado{min-height:1.2em;font-size:.84rem;color:var(--muted);margin:8px 0 0}
+.estado.error{color:var(--warn)}
+.aviso{font-size:.8rem;color:var(--warn);margin:6px 0 0}
+.mesa{padding:clamp(12px,3vw,40px);min-width:0}
+
+/* ---------- Diálogo de imagen ---------- */
+dialog{border:0;border-radius:12px;padding:20px;width:min(420px,calc(100vw - 32px));background:var(--surface);color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(10,14,20,.55)}
+dialog h2{margin:0 0 14px;font-size:1.05rem}
+.fila{display:flex;gap:6px;margin-bottom:8px}
+.fila .campo{flex:1;min-width:0}
+.sep{color:var(--muted);font-size:.82rem;margin:14px 0 6px}
+.subir{display:block;text-align:center}
+.subir input{position:absolute;opacity:0;width:1px;height:1px}
+.pie-dialogo{display:flex;justify-content:space-between;gap:6px;margin-top:16px}
+
+/* ---------- Tapa (base) ---------- */
+.tapa{
+  --paper:#fff;--ink:#111;--accent:#333;--accent2:#999;--rule:rgba(0,0,0,.25);--muted:#555;
+  --fh:Georgia,serif;--fb:Arial,sans-serif;--fm:var(--fh);
+  container:tapa/inline-size;
+  width:100%;max-width:880px;margin:0 auto;background:var(--paper);color:var(--ink);
+  padding:clamp(14px,3.5cqi,34px);font-family:var(--fb);line-height:1.35;
+  box-shadow:0 1px 2px rgba(0,0,0,.12),0 14px 34px rgba(0,0,0,.18);
+}
+.tapa.exportando{width:880px;max-width:none;box-shadow:none}
+.tapa h1,.tapa h2,.tapa h3,.tapa h4,.tapa p{margin:0}
+.tapa [contenteditable]{border-radius:2px;outline:1px dashed transparent;outline-offset:2px;transition:outline-color .15s}
+.tapa [contenteditable]:hover{outline-color:rgba(43,89,195,.55)}
+.tapa [contenteditable]:focus{outline:2px solid #2b59c3}
+.tapa.exportando [contenteditable]{outline:none!important}
+
+.cabecera{text-align:center;margin-bottom:18px}
+.cab-meta{display:flex;justify-content:space-between;gap:12px;font-size:.78rem;padding:4px 0}
+.nombre{min-width:0;font-family:var(--fm);font-size:calc(clamp(2.4rem,11cqi,5.6rem) * var(--k,1));line-height:1.02;font-weight:400;padding:4px 0;overflow-wrap:anywhere}
+.lema{font-size:.85rem}
+.marca{display:flex;align-items:center;justify-content:center;gap:clamp(8px,2.2cqi,20px)}
+.marca[data-pos="arriba"]{flex-direction:column;gap:6px}
+.tapa[data-d="economico"] .marca,.tapa[data-d="politico"] .marca{justify-content:flex-start}
+.tapa[data-d="economico"] .marca[data-pos="arriba"],.tapa[data-d="politico"] .marca[data-pos="arriba"]{align-items:flex-start}
+.logo{display:block;flex:none;height:calc(clamp(44px,10cqi,92px) * var(--kl,1));width:auto;max-width:100%;cursor:pointer;margin:4px 0}
+.marca[data-pos="reemplaza"] .logo{height:calc(clamp(64px,15cqi,150px) * var(--kl,1))}
+.ticker{margin-top:10px;padding:7px 10px;font-size:.82rem;text-align:left}
+
+.cuerpo{display:grid;gap:22px}
+.principal{display:grid;gap:22px;align-content:start}
+.nota{min-width:0}
+.volanta{font-size:.8rem;font-weight:700;margin-bottom:4px}
+.titulo{font-family:var(--fh);line-height:1.08;overflow-wrap:break-word}
+.bajada{font-size:.93rem;margin-top:6px}
+.fig{margin:0;position:relative}
+.foto{aspect-ratio:3/2;background-color:#ccc;background-size:cover;background-position:center;background-repeat:no-repeat;cursor:pointer}
+.cambiar-img{position:absolute;right:8px;bottom:8px;padding:6px 10px;border-radius:6px;border:0;background:rgba(0,0,0,.72);color:#fff;font:600 .78rem "Public Sans",sans-serif;cursor:pointer;opacity:0;transition:opacity .15s}
+.fig:hover .cambiar-img,.cambiar-img:focus-visible{opacity:1}
+@media (hover:none){.cambiar-img{opacity:.9}}
+.tapa.exportando .cambiar-img{display:none}
+
+.n1{display:flex;flex-direction:column}
+.n1 .fig{order:-1;margin-bottom:12px}
+.n1 .titulo{font-size:clamp(1.7rem,5.4cqi,2.9rem)}
+.n1 .bajada{font-size:1rem}
+.n2grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px}
+.n2{display:flex;flex-direction:column}
+.n2 .fig{order:-1;margin-bottom:10px}
+.n2 .titulo{font-size:1.28rem}
+.breves-tit{font-family:var(--fh);font-size:1.1rem;margin-bottom:10px!important}
+.breves-lista{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.n3 .titulo{font-size:1rem}
+.n3 .bajada{font-size:.84rem;margin-top:3px}
+.vacia{text-align:center;padding:60px 10px;color:var(--muted);font-size:1rem}
+
+@container tapa (min-width:600px){
+  .n1{display:grid;grid-template-columns:1.35fr 1fr;grid-template-rows:auto auto 1fr;grid-template-areas:"foto vol" "foto tit" "foto baj";column-gap:22px}
+  .n1.alt{grid-template-columns:1fr 1.35fr;grid-template-areas:"vol foto" "tit foto" "baj foto"}
+  .n1 .fig{grid-area:foto;margin:0}
+  .n1 .volanta{grid-area:vol}
+  .n1 .titulo{grid-area:tit}
+  .n1 .bajada{grid-area:baj}
+}
+@container tapa (min-width:700px){
+  .cuerpo.con-aside{grid-template-columns:1fr 230px}
+  .con-aside .breves-lista{grid-template-columns:1fr}
+}
+
+/* ---------- Sensacionalista ---------- */
+.tapa[data-d="sensacionalista"]{--paper:#fff;--ink:#111;--accent:#e1061b;--accent2:#ffe100;--fh:"Anton",Impact,"Arial Narrow",sans-serif;--fb:"Archivo",Arial,sans-serif;--fm:"Anton",Impact,sans-serif}
+.tapa[data-d="sensacionalista"] .cabecera{background:var(--accent);color:#fff;padding:8px 14px 14px}
+.tapa[data-d="sensacionalista"] .nombre{transform:skewX(-8deg);font-size:calc(clamp(3rem,15cqi,7rem) * var(--k,1));line-height:1}
+.tapa[data-d="sensacionalista"] .lema{display:inline-block;background:var(--accent2);color:var(--ink);font-weight:700;padding:2px 10px}
+.tapa[data-d="sensacionalista"] .titulo{text-transform:uppercase;font-weight:400;line-height:.98}
+.tapa[data-d="sensacionalista"] .volanta{display:inline-block;align-self:flex-start;background:var(--accent2);padding:2px 8px;font-weight:700}
+.tapa[data-d="sensacionalista"] .n1{display:flex}
+.tapa[data-d="sensacionalista"] .n1 .fig{order:0;margin:10px 0 8px;border:4px solid var(--ink)}
+.tapa[data-d="sensacionalista"] .n1 .titulo{font-size:clamp(2.4rem,9cqi,4.8rem);color:var(--accent)}
+.tapa[data-d="sensacionalista"] .n1.alt .titulo{color:var(--ink)}
+.tapa[data-d="sensacionalista"] .n1 .bajada{font-weight:700;font-size:1.08rem}
+.tapa[data-d="sensacionalista"] .n2 .fig{border:3px solid var(--ink)}
+.tapa[data-d="sensacionalista"] .breves{background:var(--accent2);padding:14px}
+.tapa[data-d="sensacionalista"] .breves-tit{font-size:1.6rem;text-transform:uppercase;color:var(--accent)}
+.tapa[data-d="sensacionalista"] .n3 .titulo{font-family:var(--fb);font-weight:700;text-transform:none}
+
+/* ---------- Formal ---------- */
+.tapa[data-d="formal"]{--paper:#f6f4ef;--ink:#1f1e1c;--accent:#1f1e1c;--rule:rgba(31,30,28,.35);--muted:#5a5853;--fh:"Libre Caslon Text",Georgia,serif;--fb:"Libre Franklin",Arial,sans-serif;--fm:"UnifrakturMaguntia","Old English Text MT",serif}
+.tapa[data-d="formal"] .cab-meta{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+.tapa[data-d="formal"] .cabecera{border-bottom:4px double var(--ink);padding-bottom:8px}
+.tapa[data-d="formal"] .lema{font-family:var(--fh);font-style:italic}
+.tapa[data-d="formal"] .volanta{font-family:var(--fh);font-style:italic;font-weight:400;color:var(--muted)}
+.tapa[data-d="formal"] .bajada{font-family:var(--fh);font-size:.9rem;line-height:1.55;hyphens:auto;text-align:justify}
+.tapa[data-d="formal"] .n1 + .n1{border-top:1px solid var(--rule);padding-top:22px}
+.tapa[data-d="formal"] .n2{border-top:1px solid var(--rule);padding-top:12px}
+.tapa[data-d="formal"] .n2 .titulo{font-size:1.15rem}
+.tapa[data-d="formal"] .breves{border-top:1px solid var(--rule);padding-top:10px}
+.tapa[data-d="formal"] .con-aside .breves{border-top:0;border-left:1px solid var(--rule);padding:0 0 0 18px}
+.tapa[data-d="formal"] .breves-tit{font-style:italic;font-weight:400;border-bottom:1px solid var(--ink);padding-bottom:4px}
+.tapa[data-d="formal"] .n3{padding-bottom:10px;border-bottom:1px dotted var(--rule)}
+.tapa[data-d="formal"] .foto{filter:grayscale(1) contrast(1.05)}
+
+/* ---------- Económico ---------- */
+.tapa[data-d="economico"]{--paper:#fbe8da;--ink:#262a33;--accent:#0d5c63;--rule:rgba(38,42,51,.25);--muted:#5b5e66;--fh:"Source Serif 4",Georgia,serif;--fb:"IBM Plex Sans Condensed","Arial Narrow",sans-serif;--fm:"Source Serif 4",Georgia,serif}
+.tapa[data-d="economico"] .cabecera{text-align:left;border-top:8px solid var(--accent);padding-top:6px}
+.tapa[data-d="economico"] .nombre{font-weight:700;letter-spacing:-.03em;font-size:calc(clamp(2.2rem,9cqi,4.6rem) * var(--k,1))}
+.tapa[data-d="economico"] .lema{color:var(--accent);font-weight:600}
+.tapa[data-d="economico"] .ticker{background:var(--ink);color:var(--paper);font-weight:600;font-variant-numeric:tabular-nums}
+.tapa[data-d="economico"] .volanta{color:var(--accent)}
+.tapa[data-d="economico"] .titulo{font-weight:700;letter-spacing:-.01em}
+.tapa[data-d="economico"] .n1 .titulo{font-size:clamp(1.6rem,5cqi,2.6rem)}
+.tapa[data-d="economico"] .n2{border-top:3px solid var(--accent);padding-top:10px}
+.tapa[data-d="economico"] .breves{background:rgba(13,92,99,.08);padding:14px;border-top:3px solid var(--ink)}
+.tapa[data-d="economico"] .n3 .titulo{font-family:var(--fb);font-weight:600}
+
+/* ---------- Político ---------- */
+.tapa[data-d="politico"]{--paper:#fff;--ink:#14213d;--accent:#3a7ca5;--rule:rgba(20,33,61,.2);--muted:#4d5a73;--fh:"Newsreader",Georgia,serif;--fb:"Public Sans",Arial,sans-serif;--fm:"Newsreader",Georgia,serif}
+.tapa[data-d="politico"] .cabecera{text-align:left;border-bottom:6px solid var(--accent);padding-bottom:10px}
+.tapa[data-d="politico"] .nombre{font-style:italic;font-weight:700;letter-spacing:-.02em}
+.tapa[data-d="politico"] .lema{color:var(--muted)}
+.tapa[data-d="politico"] .volanta{color:var(--accent)}
+.tapa[data-d="politico"] .titulo{font-weight:700}
+.tapa[data-d="politico"] .n2{border-left:3px solid var(--accent);padding-left:12px}
+.tapa[data-d="politico"] .n2 .fig{margin-left:-12px}
+.tapa[data-d="politico"] .breves{background:#edf3f8;padding:16px}
+.tapa[data-d="politico"] .breves-tit{color:var(--accent)}
+.tapa[data-d="politico"] .n3{padding-bottom:10px;border-bottom:1px solid var(--rule)}
+
+/* ---------- Deportivo ---------- */
+.tapa[data-d="deportivo"]{--paper:#fff;--ink:#0e1a14;--accent:#00843d;--accent2:#ff6b00;--rule:rgba(14,26,20,.2);--fh:"Oswald","Arial Narrow",sans-serif;--fb:"Barlow",Arial,sans-serif;--fm:"Oswald","Arial Narrow",sans-serif}
+.tapa[data-d="deportivo"] .cabecera{background:var(--accent);color:#fff;padding:6px 14px 12px}
+.tapa[data-d="deportivo"] .nombre{font-weight:700;font-style:italic;text-transform:uppercase;transform:skewX(-10deg);letter-spacing:-.02em}
+.tapa[data-d="deportivo"] .lema{color:#dff5e8;font-weight:600}
+.tapa[data-d="deportivo"] .titulo{text-transform:uppercase;font-weight:700}
+.tapa[data-d="deportivo"] .volanta{color:var(--accent2);text-transform:uppercase;letter-spacing:.02em}
+.tapa[data-d="deportivo"] .n1{display:flex;gap:0}
+.tapa[data-d="deportivo"] .n1 .fig{order:-1;margin:0}
+.tapa[data-d="deportivo"] .n1 .volanta,.tapa[data-d="deportivo"] .n1 .titulo,.tapa[data-d="deportivo"] .n1 .bajada{background:var(--ink);color:#fff;margin:0;padding:0 18px}
+.tapa[data-d="deportivo"] .n1 .volanta{padding-top:14px;color:var(--accent2)}
+.tapa[data-d="deportivo"] .n1 .titulo{font-size:clamp(2rem,7.5cqi,4rem);font-style:italic;padding-top:4px}
+.tapa[data-d="deportivo"] .n1 .bajada{padding-top:8px;padding-bottom:16px}
+.tapa[data-d="deportivo"] .n2 .fig{border-bottom:5px solid var(--accent2)}
+.tapa[data-d="deportivo"] .breves{border-top:5px solid var(--accent);padding-top:10px}
+.tapa[data-d="deportivo"] .breves-tit{text-transform:uppercase;font-style:italic;color:var(--accent)}
+.tapa[data-d="deportivo"] .n3 .titulo{text-transform:none;font-family:var(--fb);font-weight:600}
+
+@media print{
+  @page{margin:10mm}
+  body{background:#fff}
+  .panel,dialog{display:none!important}
+  .app{display:block}
+  .mesa{padding:0}
+  .tapa{box-shadow:none;max-width:none}
+  .cambiar-img{display:none}
+  .tapa [contenteditable]{outline:none!important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="app">
+  <aside class="panel" aria-label="Controles">
+    <h1>Armado de tapa</h1>
+    <p class="ayuda">Tocá cualquier texto de la tapa para editarlo. Tocá una imagen para cambiarla.</p>
+
+    <fieldset class="grupo">
+      <legend>Diseño</legend>
+      <div class="disenos" id="disenos"></div>
+    </fieldset>
+
+    <div class="grupo">
+      <label class="tit" for="nombreInput" style="display:block">Nombre de la publicación</label>
+      <input class="campo" id="nombreInput" type="text" autocomplete="off">
+    </div>
+
+    <div class="grupo">
+      <div class="tit">Estilo del nombre</div>
+      <label class="sub" for="selFuente">Tipografía</label>
+      <select class="campo" id="selFuente"></select>
+      <label class="sub" for="selEstilo">Estilo</label>
+      <select class="campo" id="selEstilo">
+        <option value="">Del diseño</option><option value="normal">Normal</option><option value="cursiva">Cursiva</option><option value="inclinado">Inclinado</option><option value="ambos">Cursiva e inclinado</option>
+      </select>
+      <label class="sub" for="rngTam"><span>Tamaño</span><output id="outTam"></output></label>
+      <input type="range" id="rngTam" min="50" max="160" step="5">
+      <div class="color-fila"><input type="color" id="colTexto" aria-label="Color del nombre"><span>Color del nombre</span><button class="btn mini" type="button" data-reset="color">Del diseño</button></div>
+      <div class="color-fila"><input type="color" id="colFondo" aria-label="Color de la franja"><span>Franja de fondo</span><button class="btn mini" type="button" data-reset="sin">Sin franja</button><button class="btn mini" type="button" data-reset="fondo">Del diseño</button></div>
+    </div>
+
+    <div class="grupo">
+      <div class="tit">Logotipo</div>
+      <div class="botones"><button class="btn" id="btnLogo" type="button">Subir logo</button><button class="btn" id="btnQuitarLogo" type="button">Quitar</button></div>
+      <div id="logoOpc">
+        <label class="sub" for="selPos">Ubicación</label>
+        <select class="campo" id="selPos"><option value="lado">Al lado del nombre</option><option value="arriba">Arriba del nombre</option><option value="reemplaza">Reemplaza al nombre</option></select>
+        <label class="sub" for="rngLogo"><span>Tamaño del logo</span><output id="outLogo"></output></label>
+        <input type="range" id="rngLogo" min="40" max="200" step="5">
+      </div>
+      <p style="margin:12px 0 0"><button class="btn mini" id="btnResetCab" type="button">Restablecer el estilo del diseño</button></p>
+    </div>
+
+    <div class="grupo">
+      <div class="tit">Noticias en tapa</div>
+      <div class="paso"><div>Nivel 1<small>Principales, hasta 2</small></div><div class="contador" data-k="n1"><button type="button" data-op="-1" aria-label="Quitar noticia de nivel 1">−</button><output></output><button type="button" data-op="1" aria-label="Sumar noticia de nivel 1">+</button></div></div>
+      <div class="paso"><div>Nivel 2<small>Secundarias, hasta 4</small></div><div class="contador" data-k="n2"><button type="button" data-op="-1" aria-label="Quitar noticia de nivel 2">−</button><output></output><button type="button" data-op="1" aria-label="Sumar noticia de nivel 2">+</button></div></div>
+      <div class="paso"><div>Nivel 3<small>Breves, hasta 8</small></div><div class="contador" data-k="n3"><button type="button" data-op="-1" aria-label="Quitar noticia de nivel 3">−</button><output></output><button type="button" data-op="1" aria-label="Sumar noticia de nivel 3">+</button></div></div>
+    </div>
+
+    <div class="grupo">
+      <div class="tit">Exportar</div>
+      <div class="botones">
+        <button class="btn prim" id="btnPng" type="button" disabled>Descargar PNG</button>
+        <button class="btn prim" id="btnPdf" type="button" disabled>Descargar PDF</button>
+        <button class="btn" id="btnPrint" type="button">Imprimir</button>
+      </div>
+      <p class="estado" id="estado" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="grupo">
+      <button class="btn peligro" id="btnReset" type="button">Restaurar noticias de este diseño</button>
+      <p class="aviso" id="aviso" hidden></p>
+    </div>
+  </aside>
+
+  <main class="mesa">
+    <div class="tapa" id="tapa"></div>
+  </main>
+</div>
+
+<dialog id="dlg" aria-labelledby="dlgTit">
+  <h2 id="dlgTit">Cambiar imagen</h2>
+  <label class="btn prim subir">Subir desde el dispositivo<input type="file" id="archivo" accept="image/*"></label>
+  <p class="sep">O pegá la dirección de una imagen</p>
+  <div class="fila">
+    <input class="campo" id="urlInput" type="url" placeholder="https://…" autocomplete="off">
+    <button class="btn" id="btnUrl" type="button">Usar</button>
+  </div>
+  <p class="estado error" id="dlgError" role="alert"></p>
+  <div class="pie-dialogo">
+    <button class="btn" id="btnOriginal" type="button">Volver a la original</button>
+    <button class="btn" id="btnCerrar" type="button">Cerrar</button>
+  </div>
+</dialog>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Contenido predefinido ---------- */
+const D = {
+  sensacionalista:{
+    label:"Sensacionalista", nombre:"¡ZAS!", lema:"El diario que no se calla", precio:"$900", breves:"¡Y además!",
+    pal:["#ffe100","#e1061b","#111111"],
+    n1:[
+      {v:"Escándalo en el barrio",t:"¡Se robaron el Obelisco… de chocolate!",b:"La pieza de 40 kilos desapareció de una confitería de Almagro a plena luz del día. Los vecinos, en shock."},
+      {v:"Exclusivo",t:"La verdad sobre el perro que apareció en el padrón",b:"Su dueño jura que es “un vecino ejemplar” y pide que lo dejen votar."}
+    ],
+    n2:[
+      {v:"Infierno bajo tierra",t:"40 minutos sin aire en el subte",b:"Pasajeros desesperados y un vagón convertido en sauna."},
+      {v:"La tocó la varita",t:"La vecina que ganó el Quini tres veces",b:"Revela su cábala: siempre juega con la fecha de su casamiento."},
+      {v:"Susto en la avenida",t:"Choque de colectivos en hora pico",b:"No hubo heridos, pero el tránsito colapsó durante dos horas."},
+      {v:"Irreconocible",t:"El cambio de look que sorprendió a todos",b:"Las fotos que explotaron en las redes."}
+    ],
+    n3:[
+      {t:"Granizo sorpresa en Flores",b:"Autos dañados y techos rotos."},
+      {t:"¿Un yacaré en Palermo?",b:"Lo vieron en uno de los lagos."},
+      {t:"Récord de choripanes",b:"La costanera vendió 12.000 en un día."},
+      {t:"El alfajor ya cuesta el doble",b:"Los kiosqueros, indignados."},
+      {t:"Vuelve el frío polar",b:"Sacá la campera otra vez."},
+      {t:"Rescataron a un gato",b:"Estuvo tres días arriba de un árbol."},
+      {t:"Furor por los ventiladores",b:"Se agotaron en varias casas de electro."},
+      {t:"Horóscopo",b:"Semana de cambios para Escorpio."}
+    ]
+  },
+  formal:{
+    label:"Formal", nombre:"El Observador Porteño", lema:"Edición matutina", precio:"$1.500", breves:"En breve",
+    pal:["#d9d4c7","#6d6b64","#2d2c2a"],
+    n1:[
+      {v:"Economía y Estado",t:"El Congreso aprobó en general el nuevo régimen de coparticipación",b:"Tras una sesión de catorce horas, la iniciativa obtuvo el respaldo de la mayoría. Las provincias negociarán en comisión los coeficientes definitivos, que regirían desde el próximo ejercicio fiscal."},
+      {v:"Internacional",t:"La cumbre regional acordó una agenda común sobre energía y clima",b:"Los cancilleres firmaron una declaración de doce puntos que incluye interconexión eléctrica y metas de reducción de emisiones para 2035."}
+    ],
+    n2:[
+      {v:"Justicia",t:"La Corte fijó criterios sobre el acceso a la información pública",b:"El fallo obliga a los organismos a responder en plazos más breves."},
+      {v:"Educación",t:"Crece la matrícula en las carreras de ingeniería",b:"Las universidades públicas registran un aumento del 11% en la inscripción."},
+      {v:"Ciudad",t:"Se licita la renovación de 30 kilómetros de ciclovías",b:"Las obras comenzarían en marzo y durarían un año."},
+      {v:"Sociedad",t:"Un estudio advierte sobre el envejecimiento de la población activa",b:"Los especialistas proponen revisar el sistema previsional."}
+    ],
+    n3:[
+      {t:"Reabre el Museo de Arte Decorativo",b:"Tras dos años de obras."},
+      {t:"Hallazgo paleontológico en Neuquén",b:"Un nuevo saurópodo del Cretácico."},
+      {t:"Lluvias para el domingo",b:"Temperaturas en descenso."},
+      {t:"Cambios en tres líneas de colectivo",b:"Rigen desde el lunes."},
+      {t:"Comienzan las inscripciones escolares",b:"El trámite es en línea."},
+      {t:"Campaña de vacunación de invierno",b:"Se extiende a mayores de 50."},
+      {t:"Opinión: el federalismo fiscal en debate",b:"Página 22."},
+      {t:"Novedades editoriales de la temporada",b:"Suplemento Cultura."}
+    ]
+  },
+  economico:{
+    label:"Económico", nombre:"Mercado & Finanzas", lema:"Diario de negocios", precio:"$1.800", breves:"En números",
+    ticker:"Merval +2,4%   |   Dólar mayorista $1.412   |   Riesgo país 612 pb   |   Soja US$ 382/t   |   Plazo fijo 32% TNA",
+    pal:["#f3cdb5","#0d5c63","#262a33"],
+    n1:[
+      {v:"Mercados",t:"Los bancos lideran la suba y el índice toca su máximo del año",b:"El volumen operado superó los $90.000 millones. Los analistas atribuyen el alza a la baja de tasas y al ingreso de fondos del exterior."},
+      {v:"Energía",t:"La producción de petróleo no convencional crece 18% interanual",b:"Las exportaciones del sector ya compensan el déficit energético y anticipan un superávit récord al cierre del año."}
+    ],
+    n2:[
+      {v:"Pymes",t:"El crédito productivo sube por tercer mes consecutivo",b:"Las líneas a tasa fija ganan participación."},
+      {v:"Agro",t:"La cosecha fina anticipa rindes por encima del promedio",b:"El trigo podría superar las 20 millones de toneladas."},
+      {v:"Consumo",t:"Las ventas en supermercados se estabilizan",b:"Alimentos y limpieza muestran leve recuperación."},
+      {v:"Fintech",t:"Las billeteras virtuales ya superan los 30 millones de usuarios",b:"Los pagos con QR crecen a doble dígito."}
+    ],
+    n3:[
+      {t:"Inflación mayorista: 1,8%",b:"Dato mensual de agosto."},
+      {t:"Licitación del Tesoro",b:"Se adjudicó el 110% de los vencimientos."},
+      {t:"Construcción en alza",b:"Repuntan los despachos de cemento."},
+      {t:"Patentamientos +12%",b:"Lideran los utilitarios."},
+      {t:"Vuelven las hipotecas",b:"Se reactivan las escrituras."},
+      {t:"Centros de datos",b:"Anuncian inversión por US$ 400 M."},
+      {t:"Turismo receptivo récord",b:"Más visitantes extranjeros."},
+      {t:"Litio en Catamarca",b:"Se aprobó un nuevo proyecto."}
+    ]
+  },
+  politico:{
+    label:"Político", nombre:"La Agenda", lema:"Política, poder y ciudadanía", precio:"$1.200", breves:"Pulso político",
+    pal:["#dbe7f0","#3a7ca5","#14213d"],
+    n1:[
+      {v:"Elecciones 2027",t:"Los partidos aceleran la negociación de alianzas",b:"Las mesas de diálogo se multiplican en la Ciudad y en la Provincia. El calendario electoral obliga a definir los frentes con varios meses de anticipación."},
+      {v:"Legislatura porteña",t:"Se abre el debate sobre cambios al Código Electoral de la Ciudad",b:"Oficialismo y oposición discuten financiamiento, paridad y tecnología de votación. La discusión en el recinto podría llegar antes de fin de año."}
+    ],
+    n2:[
+      {v:"Congreso",t:"Tres legisladores dejan su bloque y arman un interbloque",b:"El movimiento altera la aritmética de la Cámara."},
+      {v:"Participación",t:"Crece el interés de los jóvenes por votar",b:"Una encuesta muestra un repunte entre los 16 y 24 años."},
+      {v:"Federalismo",t:"Los gobernadores condicionan su apoyo al presupuesto",b:"Reclaman fondos para obra pública y transporte."},
+      {v:"Campaña",t:"Proponen debates obligatorios también en las provincias",b:"El proyecto tiene apoyo de varios bloques."}
+    ],
+    n3:[
+      {t:"Senado: sesión especial",b:"En el temario, el presupuesto."},
+      {t:"Justicia electoral",b:"Se actualiza el padrón."},
+      {t:"Comunas",b:"Asumen las nuevas juntas."},
+      {t:"Afiliaciones",b:"Vence el plazo para los partidos."},
+      {t:"Diputados",b:"Se cayó el quórum otra vez."},
+      {t:"Consultas populares",b:"Crecen en los municipios."},
+      {t:"Encuestas",b:"Empate técnico en la Ciudad."},
+      {t:"Opinión",b:"El voto joven puede definir."}
+    ]
+  },
+  deportivo:{
+    label:"Deportivo", nombre:"Todo Deporte", lema:"La pasión en papel", precio:"$1.000", breves:"Polideportivo",
+    pal:["#d8efe2","#00843d","#ff6b00"],
+    n1:[
+      {v:"Superclásico",t:"¡Lo dio vuelta en el final!",b:"Con dos goles en los últimos diez minutos, el local se quedó con un partido de infarto ante un estadio repleto."},
+      {v:"Selección",t:"La lista para la doble fecha trae tres sorpresas",b:"El cuerpo técnico convocó a un arquero y dos volantes que nunca habían sido citados. Viajan el lunes."}
+    ],
+    n2:[
+      {v:"Básquet",t:"La Liga arranca con récord de público",b:"Más de 60.000 personas en la primera fecha."},
+      {v:"Tenis",t:"Una juvenil argentina avanza a cuartos",b:"Ganó en tres sets y sueña en grande."},
+      {v:"Rugby",t:"Los Pumas preparan la gira de noviembre",b:"Tres test matches en Europa."},
+      {v:"Automovilismo",t:"Definición al rojo vivo en el TC",b:"Cuatro pilotos llegan con chances."}
+    ],
+    n3:[
+      {t:"Vóley: triunfo ante Brasil",b:"Tres sets a uno."},
+      {t:"Hockey: goleada de las chicas",b:"Ganaron 5 a 0."},
+      {t:"Boxeo en el Luna Park",b:"Pelea por el título el sábado."},
+      {t:"Fútbol femenino",b:"Arranca el torneo."},
+      {t:"Maratón de Buenos Aires",b:"Ya hay 10.000 inscriptos."},
+      {t:"Golf en Tandil",b:"Ganó un amateur."},
+      {t:"Ascenso",b:"Tabla ajustadísima."},
+      {t:"Esports",b:"Equipo local clasifica al mundial."}
+    ]
+  }
+};
+const ORDEN = ["sensacionalista","formal","economico","politico","deportivo"];
+const MAX = {n1:2,n2:4,n3:8};
+const KEY = "armado-tapa-v1";
+
+/* ---------- Estado ---------- */
+let state = {d:"formal", counts:{n1:1,n2:3,n3:4}, eds:{}};
+try{
+  const raw = localStorage.getItem(KEY);
+  if(raw){
+    const s = JSON.parse(raw);
+    if(s && D[s.d] && s.counts && s.eds){ state = s; }
+  }
+}catch(e){}
+
+const clone = o => JSON.parse(JSON.stringify(o));
+function fresco(d){
+  const s = D[d];
+  const add = arr => clone(arr).map(x => Object.assign(x,{img:null}));
+  return {nombre:s.nombre, lema:s.lema, precio:s.precio, fecha:null, breves:s.breves, ticker:s.ticker||"",
+          stories:{n1:add(s.n1), n2:add(s.n2), n3:add(s.n3)}};
+}
+const defCab = () => ({font:"",estilo:"",tam:100,color:"",fondo:"",logo:null,logoPos:"lado",logoTam:100});
+function ed(){
+  if(!state.eds[state.d]) state.eds[state.d] = fresco(state.d);
+  const e = state.eds[state.d];
+  if(!e.cab) e.cab = defCab();
+  return e;
+}
+
+let tGuardar;
+function guardar(){
+  clearTimeout(tGuardar);
+  tGuardar = setTimeout(() => {
+    const aviso = document.getElementById("aviso");
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); aviso.hidden = true; }
+    catch(e){ aviso.textContent = "Los cambios se ven en pantalla, pero no quedan guardados en este navegador: las imágenes subidas ocupan demasiado espacio."; aviso.hidden = false; }
+  }, 400);
+}
+
+/* ---------- Imágenes de ejemplo ---------- */
+function ph(seed, p){
+  const [a,b,c] = p;
+  const r = n => (((seed+3)*9301 + n*49297) % 233280) / 233280;
+  let s = `<rect width="600" height="400" fill="${a}"/>`;
+  const v = seed % 4;
+  if(v===0){
+    s += `<circle cx="${150+r(1)*300}" cy="${100+r(2)*70}" r="${50+r(3)*45}" fill="${c}"/>`;
+    s += `<path d="M0 ${250+r(4)*50} Q150 ${190+r(5)*50} 300 260 T600 ${230+r(6)*50} V400 H0Z" fill="${b}"/>`;
+    s += `<path d="M0 ${320+r(7)*30} Q200 ${290+r(8)*30} 400 330 T600 ${310} V400 H0Z" fill="${c}" opacity=".55"/>`;
+  } else if(v===1){
+    const ang = 18 + r(9)*25;
+    let g = "";
+    for(let k=0;k<9;k++) g += `<rect x="${-260+k*120}" y="-120" width="${34+r(k)*46}" height="660" fill="${k%2?b:c}"/>`;
+    s += `<g transform="rotate(${ang} 300 200)">${g}</g>`;
+  } else if(v===2){
+    for(let y=0;y<6;y++) for(let x=0;x<9;x++){
+      const rad = 6 + ((x+y+seed)%5)*6;
+      s += `<circle cx="${35+x*66}" cy="${35+y*66}" r="${rad}" fill="${(x+y)%3===0?c:b}"/>`;
+    }
+  } else {
+    for(let k=0;k<8;k++){
+      const h = 60 + r(k+11)*260;
+      s += `<rect x="${40+k*68}" y="${360-h}" width="46" height="${h}" fill="${k===5?c:b}"/>`;
+    }
+    s += `<rect x="20" y="360" width="560" height="6" fill="${c}"/>`;
+  }
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" preserveAspectRatio="xMidYMid slice">${s}</svg>`);
+}
+function imgDe(lvl, i, story){
+  if(story.img) return story.img;
+  const base = ORDEN.indexOf(state.d)*7 + (lvl==="n1"?0:2) + i;
+  return ph(base, D[state.d].pal);
+}
+
+/* ---------- Render ---------- */
+const tapa = document.getElementById("tapa");
+function el(tag, cls, attrs){
+  const e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(attrs) for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+function editable(tag, cls, text, attrs){
+  const e = el(tag, cls, attrs);
+  e.contentEditable = "true";
+  e.textContent = text || "";
+  return e;
+}
+function fechaHoy(){
+  const s = new Date().toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+function nota(lvl, i, st){
+  const a = el("article", `nota ${lvl}${lvl==="n1" && i===1 ? " alt" : ""}`, {"data-l":lvl, "data-i":i});
+  if(lvl !== "n3") a.appendChild(editable("p","volanta",st.v,{"data-f":"v"}));
+  a.appendChild(editable(lvl==="n1"?"h2":lvl==="n2"?"h3":"h4","titulo",st.t,{"data-f":"t"}));
+  if(lvl !== "n3"){
+    const f = el("figure","fig");
+    const foto = el("div","foto",{role:"img","aria-label":"Imagen de la noticia"});
+    foto.style.backgroundImage = `url("${imgDe(lvl,i,st).replace(/"/g,'%22')}")`;
+    const b = el("button","cambiar-img",{type:"button"});
+    b.textContent = "Cambiar imagen";
+    f.append(foto,b);
+    a.appendChild(f);
+  }
+  a.appendChild(editable("p","bajada",st.b,{"data-f":"b"}));
+  return a;
+}
+const FUENTES = [["","Del diseño",0],["Anton","Anton",400],["Archivo Black","Archivo Black",400],["Bebas Neue","Bebas Neue",400],["Oswald","Oswald",700],["Abril Fatface","Abril Fatface",400],["Playfair Display","Playfair Display",700],["DM Serif Display","DM Serif Display",400],["Libre Caslon Text","Libre Caslon",700],["Newsreader","Newsreader",700],["Source Serif 4","Source Serif",700],["UnifrakturMaguntia","Gótica",400],["Pirata One","Pirata One",400],["Lobster","Lobster",400],["Righteous","Righteous",400]];
+function estilizarNombre(h, cs){
+  h.style.setProperty("--k", cs.tam/100);
+  if(cs.font){
+    const f = FUENTES.find(x => x[0]===cs.font);
+    h.style.fontFamily = `"${cs.font}", Georgia, serif`;
+    h.style.fontWeight = f ? f[2] : 400;
+    h.style.textTransform = "none";
+    h.style.letterSpacing = "normal";
+  }
+  if(cs.color) h.style.color = cs.color;
+  if(cs.estilo){
+    h.style.fontStyle = (cs.estilo==="cursiva"||cs.estilo==="ambos") ? "italic" : "normal";
+    h.style.transform = (cs.estilo==="inclinado"||cs.estilo==="ambos") ? "skewX(-9deg)" : "none";
+  }
+}
+function tinta(hx){
+  const n = parseInt(hx.slice(1),16);
+  const r=(n>>16&255)/255, g=(n>>8&255)/255, b=(n&255)/255;
+  return (0.2126*r+0.7152*g+0.0722*b) > 0.55 ? "#111111" : "#ffffff";
+}
+function hexDe(rgb){
+  const m = (rgb||"").match(/[\d.]+/g);
+  if(!m || (m.length>3 && +m[3]===0)) return null;
+  return "#" + m.slice(0,3).map(x => (Math.round(+x)).toString(16).padStart(2,"0")).join("");
+}
+function render(){
+  const e = ed(), c = state.counts, d = state.d;
+  tapa.dataset.d = d;
+  tapa.replaceChildren();
+
+  const cab = el("header","cabecera");
+  const meta = el("div","cab-meta");
+  meta.append(editable("span","",e.fecha || fechaHoy(),{"data-m":"fecha"}), editable("span","",e.precio,{"data-m":"precio"}));
+  const cs = e.cab;
+  const pos = cs.logo ? cs.logoPos : "sin";
+  const marca = el("div","marca",{"data-pos":pos});
+  if(cs.logo){
+    const lg = el("img","logo",{src:cs.logo, alt:e.nombre || "Logotipo", title:"Cambiar logo"});
+    lg.style.setProperty("--kl", cs.logoTam/100);
+    marca.appendChild(lg);
+  }
+  if(pos !== "reemplaza"){
+    const h = editable("h1","nombre",e.nombre,{"data-m":"nombre"});
+    estilizarNombre(h, cs);
+    marca.appendChild(h);
+  }
+  if(cs.fondo){
+    cab.style.background = cs.fondo === "sin" ? "transparent" : cs.fondo;
+    cab.style.color = cs.fondo === "sin" ? "var(--ink)" : tinta(cs.fondo);
+    if(cs.fondo !== "sin") cab.style.padding = "8px 14px 14px";
+    else cab.style.padding = "0 0 10px";
+  }
+  cab.append(meta, marca, editable("p","lema",e.lema,{"data-m":"lema"}));
+  if(d==="economico") cab.appendChild(editable("div","ticker",e.ticker,{"data-m":"ticker"}));
+  tapa.appendChild(cab);
+  syncCab();
+
+  if(c.n1+c.n2+c.n3===0){
+    const v = el("p","vacia"); v.textContent = "Sumá al menos una noticia desde el panel.";
+    tapa.appendChild(v); return;
+  }
+  const cuerpo = el("div","cuerpo");
+  const aside = (d==="formal"||d==="politico") && c.n3>0 && (c.n1+c.n2)>0;
+  if(aside) cuerpo.classList.add("con-aside");
+
+  if(c.n1+c.n2>0){
+    const pr = el("div","principal");
+    for(let i=0;i<c.n1;i++) pr.appendChild(nota("n1",i,e.stories.n1[i]));
+    if(c.n2>0){
+      const g = el("div","n2grid");
+      for(let i=0;i<c.n2;i++) g.appendChild(nota("n2",i,e.stories.n2[i]));
+      pr.appendChild(g);
+    }
+    cuerpo.appendChild(pr);
+  }
+  if(c.n3>0){
+    const br = el("section","breves");
+    br.appendChild(editable("h3","breves-tit",e.breves,{"data-m":"breves"}));
+    const l = el("div","breves-lista");
+    for(let i=0;i<c.n3;i++) l.appendChild(nota("n3",i,e.stories.n3[i]));
+    br.appendChild(l);
+    cuerpo.appendChild(br);
+  }
+  tapa.appendChild(cuerpo);
+}
+
+/* ---------- Edición en la tapa ---------- */
+const nombreInput = document.getElementById("nombreInput");
+tapa.addEventListener("input", ev => {
+  const t = ev.target.closest("[contenteditable]");
+  if(!t) return;
+  const txt = t.innerText.replace(/\s+$/,"");
+  if(t.dataset.m){
+    ed()[t.dataset.m] = txt;
+    if(t.dataset.m==="nombre") nombreInput.value = txt;
+  } else {
+    const a = t.closest(".nota");
+    ed().stories[a.dataset.l][+a.dataset.i][t.dataset.f] = txt;
+  }
+  guardar();
+});
+tapa.addEventListener("keydown", ev => {
+  if(ev.key==="Enter" && ev.target.closest("[contenteditable]")){ ev.preventDefault(); ev.target.blur(); }
+});
+tapa.addEventListener("paste", ev => {
+  if(!ev.target.closest("[contenteditable]")) return;
+  ev.preventDefault();
+  const text = (ev.clipboardData || window.clipboardData).getData("text/plain").replace(/\s*\n\s*/g," ");
+  document.execCommand("insertText", false, text);
+});
+nombreInput.addEventListener("input", () => {
+  ed().nombre = nombreInput.value;
+  const h = tapa.querySelector('[data-m="nombre"]');
+  if(h) h.textContent = nombreInput.value;
+  guardar();
+});
+
+/* ---------- Panel: diseños ---------- */
+const disenos = document.getElementById("disenos");
+ORDEN.forEach(k => {
+  const b = el("button","diseno",{type:"button","data-d":k});
+  const m = el("span","muestra",{"aria-hidden":"true"});
+  D[k].pal.forEach(col => { const i = document.createElement("i"); i.style.background = col; m.appendChild(i); });
+  const t = document.createElement("span"); t.textContent = D[k].label;
+  b.append(m,t);
+  b.addEventListener("click", () => { state.d = k; sync(); render(); guardar(); });
+  disenos.appendChild(b);
+});
+
+/* ---------- Panel: cantidades ---------- */
+document.querySelectorAll(".contador").forEach(box => {
+  const k = box.dataset.k;
+  box.addEventListener("click", ev => {
+    const b = ev.target.closest("button"); if(!b) return;
+    const n = Math.min(MAX[k], Math.max(0, state.counts[k] + Number(b.dataset.op)));
+    if(n===state.counts[k]) return;
+    state.counts[k] = n; sync(); render(); guardar();
+  });
+});
+
+function sync(){
+  disenos.querySelectorAll(".diseno").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.d===state.d)));
+  document.querySelectorAll(".contador").forEach(box => {
+    const k = box.dataset.k, n = state.counts[k];
+    box.querySelector("output").textContent = n;
+    box.querySelector('[data-op="-1"]').disabled = n<=0;
+    box.querySelector('[data-op="1"]').disabled = n>=MAX[k];
+  });
+  nombreInput.value = ed().nombre;
+  resetArmado = false;
+  btnReset.textContent = "Restaurar noticias de este diseño";
+}
+
+/* ---------- Restaurar ---------- */
+const btnReset = document.getElementById("btnReset");
+let resetArmado = false;
+btnReset.addEventListener("click", () => {
+  if(!resetArmado){
+    resetArmado = true;
+    btnReset.textContent = "Tocá de nuevo para confirmar: se pierden tus cambios en este diseño";
+    return;
+  }
+  const cabPrev = ed().cab;
+  state.eds[state.d] = Object.assign(fresco(state.d), {cab:cabPrev});
+  sync(); render(); guardar();
+});
+
+/* ---------- Diálogo de imagen ---------- */
+const dlg = document.getElementById("dlg"), dlgError = document.getElementById("dlgError");
+const archivo = document.getElementById("archivo"), urlInput = document.getElementById("urlInput");
+let objetivo = null;
+const btnOriginal = document.getElementById("btnOriginal");
+function abrirDlg(obj){
+  objetivo = obj;
+  document.getElementById("dlgTit").textContent = obj.logo ? "Logotipo" : "Cambiar imagen";
+  btnOriginal.textContent = obj.logo ? "Quitar logo" : "Volver a la original";
+  btnOriginal.hidden = obj.logo && !ed().cab.logo;
+  dlgError.textContent = ""; urlInput.value = ""; archivo.value = "";
+  dlg.showModal();
+}
+tapa.addEventListener("click", ev => {
+  if(ev.target.closest(".logo")){ abrirDlg({logo:true}); return; }
+  const f = ev.target.closest(".fig");
+  if(!f) return;
+  const a = f.closest(".nota");
+  abrirDlg({l:a.dataset.l, i:+a.dataset.i});
+});
+function aplicarImg(src){
+  if(objetivo.logo) ed().cab.logo = src;
+  else ed().stories[objetivo.l][objetivo.i].img = src;
+  render(); guardar(); dlg.close();
+}
+archivo.addEventListener("change", () => {
+  const file = archivo.files && archivo.files[0];
+  if(!file) return;
+  if(!file.type.startsWith("image/")){ dlgError.textContent = "Ese archivo no es una imagen. Elegí un JPG, PNG, WebP, GIF o SVG."; return; }
+  if(objetivo.logo && file.type==="image/svg+xml"){
+    const fr = new FileReader();
+    fr.onload = () => aplicarImg(fr.result);
+    fr.onerror = () => { dlgError.textContent = "No se pudo leer el archivo. Probá con otro."; };
+    fr.readAsDataURL(file);
+    return;
+  }
+  const url = URL.createObjectURL(file);
+  const im = new Image();
+  im.onload = () => {
+    const maxW = objetivo.logo ? 900 : 1600, k = Math.min(1, maxW / im.naturalWidth);
+    const cv = document.createElement("canvas");
+    cv.width = Math.round(im.naturalWidth*k); cv.height = Math.round(im.naturalHeight*k);
+    cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);
+    URL.revokeObjectURL(url);
+    aplicarImg(objetivo.logo ? cv.toDataURL("image/png") : cv.toDataURL("image/jpeg",0.85));
+  };
+  im.onerror = () => { URL.revokeObjectURL(url); dlgError.textContent = "No se pudo leer la imagen. Probá con otro archivo."; };
+  im.src = url;
+});
+/* Las imágenes por URL se copian dentro de la tapa (como data URL) para que
+   html2canvas pueda exportarlas. Primero se intenta directo; si el sitio no
+   lo permite (CORS), se intenta a través del servicio público images.weserv.nl. */
+function cargarCors(src){
+  return new Promise((res, rej) => {
+    const im = new Image();
+    im.crossOrigin = "anonymous";
+    im.onload = () => res(im);
+    im.onerror = rej;
+    im.src = src;
+  });
+}
+function aDataUrl(im, png){
+  const maxW = png ? 900 : 1600, k = Math.min(1, maxW / im.naturalWidth);
+  const cv = document.createElement("canvas");
+  cv.width = Math.round(im.naturalWidth*k); cv.height = Math.round(im.naturalHeight*k);
+  cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);
+  return png ? cv.toDataURL("image/png") : cv.toDataURL("image/jpeg",0.85);
+}
+async function embeber(u, png){
+  const fuentes = [u, "https://images.weserv.nl/?url=" + encodeURIComponent(u)];
+  for(const src of fuentes){
+    try{ return aDataUrl(await cargarCors(src), png); }catch(e){}
+  }
+  return null;
+}
+async function embeberPendientes(){
+  const e = ed(); let fallas = 0, cambios = false;
+  const esUrl = x => typeof x === "string" && /^https?:/i.test(x);
+  for(const lvl of ["n1","n2"]){
+    for(const st of e.stories[lvl]){
+      if(esUrl(st.img)){
+        const d = await embeber(st.img, false);
+        if(d){ st.img = d; cambios = true; } else fallas++;
+      }
+    }
+  }
+  if(esUrl(e.cab.logo)){
+    const d = await embeber(e.cab.logo, true);
+    if(d){ e.cab.logo = d; cambios = true; } else fallas++;
+  }
+  if(cambios){ render(); guardar(); }
+  return fallas;
+}
+document.getElementById("btnUrl").addEventListener("click", async () => {
+  const u = urlInput.value.trim();
+  if(!/^https?:\/\//i.test(u)){ dlgError.textContent = "Pegá una dirección completa que empiece con https://"; return; }
+  dlgError.textContent = "Cargando…";
+  const data = await embeber(u, !!objetivo.logo);
+  if(data){ aplicarImg(data); return; }
+  const visible = await new Promise(r => { const im = new Image(); im.onload = () => r(true); im.onerror = () => r(false); im.src = u; });
+  if(!visible){ dlgError.textContent = "No se pudo cargar la imagen desde esa dirección. Descargala y subila desde el dispositivo."; return; }
+  aplicarImg(u);
+  msg("Esa imagen se ve en pantalla, pero su sitio no permite copiarla, así que no va a salir al exportar. Descargala y subila desde el dispositivo.", true);
+});
+btnOriginal.addEventListener("click", () => aplicarImg(null));
+document.getElementById("btnCerrar").addEventListener("click", () => dlg.close());
+
+/* ---------- Estilo del nombre y logo ---------- */
+const selFuente = document.getElementById("selFuente"), selEstilo = document.getElementById("selEstilo");
+const rngTam = document.getElementById("rngTam"), outTam = document.getElementById("outTam");
+const colTexto = document.getElementById("colTexto"), colFondo = document.getElementById("colFondo");
+const selPos = document.getElementById("selPos"), rngLogo = document.getElementById("rngLogo"), outLogo = document.getElementById("outLogo");
+const logoOpc = document.getElementById("logoOpc"), btnQuitarLogo = document.getElementById("btnQuitarLogo"), btnLogo = document.getElementById("btnLogo");
+FUENTES.forEach(([v,label]) => {
+  const o = document.createElement("option"); o.value = v; o.textContent = label;
+  if(v) o.style.fontFamily = `"${v}", serif`;
+  selFuente.appendChild(o);
+});
+function syncCab(){
+  const c = ed().cab;
+  selFuente.value = c.font; selEstilo.value = c.estilo;
+  rngTam.value = c.tam; outTam.textContent = c.tam + "%";
+  const h = tapa.querySelector(".nombre"), cabEl = tapa.querySelector(".cabecera");
+  colTexto.value = c.color || hexDe(getComputedStyle(h || cabEl).color) || "#111111";
+  colFondo.value = (c.fondo && c.fondo!=="sin") ? c.fondo : (cabEl && hexDe(getComputedStyle(cabEl).backgroundColor)) || "#ffffff";
+  logoOpc.hidden = !c.logo; btnQuitarLogo.hidden = !c.logo;
+  btnLogo.textContent = c.logo ? "Cambiar logo" : "Subir logo";
+  selPos.value = c.logoPos; rngLogo.value = c.logoTam; outLogo.textContent = c.logoTam + "%";
+}
+function setCab(k, v){ ed().cab[k] = v; render(); guardar(); }
+selFuente.addEventListener("change", () => setCab("font", selFuente.value));
+selEstilo.addEventListener("change", () => setCab("estilo", selEstilo.value));
+rngTam.addEventListener("input", () => setCab("tam", +rngTam.value));
+colTexto.addEventListener("input", () => setCab("color", colTexto.value));
+colFondo.addEventListener("input", () => setCab("fondo", colFondo.value));
+selPos.addEventListener("change", () => setCab("logoPos", selPos.value));
+rngLogo.addEventListener("input", () => setCab("logoTam", +rngLogo.value));
+document.querySelectorAll("[data-reset]").forEach(b => b.addEventListener("click", () => {
+  const r = b.dataset.reset;
+  if(r==="color") setCab("color","");
+  else if(r==="fondo") setCab("fondo","");
+  else setCab("fondo","sin");
+}));
+btnLogo.addEventListener("click", () => abrirDlg({logo:true}));
+btnQuitarLogo.addEventListener("click", () => setCab("logo", null));
+document.getElementById("btnResetCab").addEventListener("click", () => {
+  const logo = ed().cab.logo, pos = ed().cab.logoPos;
+  ed().cab = Object.assign(defCab(), {logo, logoPos:pos}); render(); guardar();
+});
+
+/* ---------- Exportar ---------- */
+const estado = document.getElementById("estado");
+const btnPng = document.getElementById("btnPng"), btnPdf = document.getElementById("btnPdf");
+let downloads = null;
+function msg(t, err){ estado.textContent = t; estado.classList.toggle("error", !!err); }
+function slug(){
+  return (ed().nombre || "tapa").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || "tapa";
+}
+async function capturar(){
+  if(document.activeElement) document.activeElement.blur();
+  tapa.classList.add("exportando");
+  try{
+    await document.fonts.ready;
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    return await html2canvas(tapa,{scale:2,useCORS:true,logging:false,backgroundColor:getComputedStyle(tapa).backgroundColor});
+  } finally { tapa.classList.remove("exportando"); }
+}
+function aBlob(cv){
+  return new Promise((res,rej) => { try{ cv.toBlob(b => b ? res(b) : rej(new Error("vacío")), "image/png"); }catch(e){ rej(e); } });
+}
+async function exportar(tipo){
+  if(!window.html2canvas) return;
+  btnPng.disabled = btnPdf.disabled = true;
+  msg("Preparando la tapa…");
+  try{
+    const fallas = await embeberPendientes();
+    const nota = fallas ? ` Quedaron afuera ${fallas} imagen${fallas>1?"es":""} por URL que su sitio no permite copiar: descargalas y subilas desde el dispositivo.` : "";
+    const cv = await capturar();
+    let data, nombre;
+    if(tipo==="png"){ data = await aBlob(cv); nombre = slug()+".png"; }
+    else {
+      const {jsPDF} = window.jspdf;
+      const w = 210, h = w*cv.height/cv.width;
+      const pdf = new jsPDF({unit:"mm", format:[w,h], orientation: h>=w ? "portrait" : "landscape"});
+      pdf.addImage(cv.toDataURL("image/jpeg",0.92),"JPEG",0,0,w,h);
+      data = pdf.output("blob"); nombre = slug()+".pdf";
+    }
+    if(downloads){
+      msg("Confirmá la descarga.");
+      await downloads.save({filename:nombre, data});
+    } else {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(data); a.download = nombre;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    }
+    msg("Descargada: " + nombre + "." + nota, !!nota);
+  }catch(e){
+    if(e && e.name==="SecurityError") msg("Una imagen cargada por URL no permite exportar (el sitio de origen lo bloquea). Descargala, subila desde el dispositivo y probá de nuevo.", true);
+    else if(e && e.code==="declined") msg("Descarga cancelada.");
+    else if(e && e.code==="rate_limited") msg("Ya hay una descarga esperando confirmación.", true);
+    else msg("No se pudo exportar la tapa. Probá de nuevo.", true);
+  }finally{
+    btnPng.disabled = btnPdf.disabled = false;
+  }
+}
+btnPng.addEventListener("click", () => exportar("png"));
+btnPdf.addEventListener("click", () => exportar("pdf"));
+document.getElementById("btnPrint").addEventListener("click", () => window.print());
+
+(async () => {
+  try{
+    if(window.claude && typeof window.claude.use === "function") downloads = await window.claude.use("downloads");
+  }catch(e){ downloads = null; }
+  if(window.html2canvas && window.jspdf){ btnPng.disabled = btnPdf.disabled = false; }
+  else msg("Las descargas necesitan conexión a internet. Podés usar Imprimir y guardar como PDF.");
+})();
+
+sync();
+render();
+})();
+</script>
+</body>
+</html>
