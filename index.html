@@ -6,7 +6,7 @@
 <title>Armado de tapa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;700&family=Barlow:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@400;600&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,700&family=Oswald:wght@500;700&family=Public+Sans:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&family=UnifrakturMaguntia&family=Abril+Fatface&family=Archivo+Black&family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Lobster&family=Pirata+One&family=Playfair+Display:ital,wght@0,700;1,700&family=Righteous&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;700&family=Barlow:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@400;600&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,700&family=Oswald:wght@500;700&family=Public+Sans:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&family=UnifrakturMaguntia&family=Abril+Fatface&family=Archivo+Black&family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Lobster&family=Pirata+One&family=Playfair+Display:ital,wght@0,700;1,700&family=Righteous&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#e4e6ea; --surface:#fff; --text:#1d2330; --muted:#5d6676; --line:#d2d6dd;
@@ -107,8 +107,8 @@ dialog h2{margin:0 0 14px;font-size:1.05rem}
 .lema{font-size:.85rem}
 .marca{display:flex;align-items:center;justify-content:center;gap:clamp(8px,2.2cqi,20px)}
 .marca[data-pos="arriba"]{flex-direction:column;gap:6px}
-.tapa[data-d="economico"] .marca,.tapa[data-d="politico"] .marca{justify-content:flex-start}
-.tapa[data-d="economico"] .marca[data-pos="arriba"],.tapa[data-d="politico"] .marca[data-pos="arriba"]{align-items:flex-start}
+.tapa[data-d="economico"] .marca,.tapa[data-d="politico"] .marca,.tapa[data-d="tecnologia"] .marca{justify-content:flex-start}
+.tapa[data-d="economico"] .marca[data-pos="arriba"],.tapa[data-d="politico"] .marca[data-pos="arriba"],.tapa[data-d="tecnologia"] .marca[data-pos="arriba"]{align-items:flex-start}
 .logo{display:block;flex:none;height:calc(clamp(44px,10cqi,92px) * var(--kl,1));width:auto;max-width:100%;cursor:pointer;margin:4px 0}
 .marca[data-pos="reemplaza"] .logo{height:calc(clamp(64px,15cqi,150px) * var(--kl,1))}
 .ticker{margin-top:10px;padding:7px 10px;font-size:.82rem;text-align:left}
@@ -229,6 +229,59 @@ dialog h2{margin:0 0 14px;font-size:1.05rem}
 .tapa[data-d="deportivo"] .breves{border-top:5px solid var(--accent);padding-top:10px}
 .tapa[data-d="deportivo"] .breves-tit{text-transform:uppercase;font-style:italic;color:var(--accent)}
 .tapa[data-d="deportivo"] .n3 .titulo{text-transform:none;font-family:var(--fb);font-weight:600}
+
+/* ---------- Tecnología ---------- */
+.tapa[data-d="tecnologia"]{--paper:#0b1020;--ink:#e8ecf8;--accent:#00e5a8;--accent2:#7c5cff;--rule:rgba(232,236,248,.2);--muted:#9aa7c9;--fh:"Space Grotesk","Arial Narrow",sans-serif;--fb:"Space Grotesk",Arial,sans-serif;--fm:"JetBrains Mono",ui-monospace,Consolas,monospace}
+.tapa[data-d="tecnologia"] .cabecera{text-align:left;border-bottom:2px solid var(--accent);padding-bottom:8px}
+.tapa[data-d="tecnologia"] .cab-meta{font-family:var(--fm);color:var(--muted)}
+.tapa[data-d="tecnologia"] .nombre{font-weight:600;letter-spacing:-.05em;color:var(--accent);font-size:calc(clamp(2.2rem,9.5cqi,5rem) * var(--k,1))}
+.tapa[data-d="tecnologia"] .lema{font-family:var(--fm);color:var(--accent2)}
+.tapa[data-d="tecnologia"] .ticker{background:var(--accent);color:#04130e;font-family:var(--fm);font-weight:600}
+.tapa[data-d="tecnologia"] .volanta{font-family:var(--fm);color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.tapa[data-d="tecnologia"] .titulo{font-weight:700;letter-spacing:-.02em}
+.tapa[data-d="tecnologia"] .bajada{color:#c3cce6}
+.tapa[data-d="tecnologia"] .foto{filter:saturate(1.25) contrast(1.05)}
+.tapa[data-d="tecnologia"] .n1 .fig{border:1px solid var(--accent)}
+.tapa[data-d="tecnologia"] .n2{border:1px solid var(--rule);background:rgba(255,255,255,.04);padding:12px}
+.tapa[data-d="tecnologia"] .breves{border:1px solid var(--accent2);padding:14px}
+.tapa[data-d="tecnologia"] .breves-tit{font-family:var(--fm);font-size:.95rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent2)}
+.tapa[data-d="tecnologia"] .n3 .titulo{font-family:var(--fm);font-size:.9rem;font-weight:600}
+
+/* ---------- Retro ---------- */
+.tapa[data-d="retro"]{--paper:#e9dcc0;--ink:#2a2118;--accent:#7a2e1b;--rule:rgba(42,33,24,.5);--muted:#5b4b3a;--fh:"Old Standard TT",Georgia,serif;--fb:"Old Standard TT",Georgia,serif;--fm:"UnifrakturMaguntia","Old English Text MT",serif;background-image:radial-gradient(ellipse at center,transparent 55%,rgba(120,80,30,.24) 100%)}
+.tapa[data-d="retro"] .cab-meta{border-top:3px double var(--ink);border-bottom:1px solid var(--ink);font-style:italic}
+.tapa[data-d="retro"] .cabecera{border-bottom:5px double var(--ink);padding-bottom:8px}
+.tapa[data-d="retro"] .lema{font-style:italic}
+.tapa[data-d="retro"] .volanta{font-variant:small-caps;letter-spacing:.07em;color:var(--accent);font-size:.9rem}
+.tapa[data-d="retro"] .titulo{font-weight:700}
+.tapa[data-d="retro"] .n1 .titulo{text-transform:uppercase;letter-spacing:.01em;line-height:1.05;font-size:clamp(1.4rem,4.2cqi,2.3rem)}
+.tapa[data-d="retro"] .bajada{line-height:1.5;hyphens:auto;text-align:justify}
+.tapa[data-d="retro"] .foto{filter:sepia(.85) contrast(1.08) grayscale(.15)}
+.tapa[data-d="retro"] .n1 + .n1{border-top:1px solid var(--rule);padding-top:22px}
+.tapa[data-d="retro"] .n2{border-top:2px solid var(--ink);padding-top:10px}
+.tapa[data-d="retro"] .breves{border-top:2px solid var(--ink);padding-top:10px}
+.tapa[data-d="retro"] .con-aside .breves{border-top:0;border-left:1px solid var(--ink);padding:0 0 0 18px}
+.tapa[data-d="retro"] .breves-tit{font-family:var(--fm);font-size:1.5rem;font-weight:400;text-align:center;border-bottom:1px solid var(--ink);padding-bottom:4px}
+.tapa[data-d="retro"] .n3{padding-bottom:10px;border-bottom:1px dotted var(--rule)}
+
+/* ---------- Cultura ---------- */
+.tapa[data-d="cultura"]{--paper:#fbf7f0;--ink:#1c1a17;--accent:#c4452d;--accent2:#2f4a3f;--rule:rgba(28,26,23,.22);--muted:#6b645a;--fh:"Fraunces",Georgia,serif;--fb:"DM Sans",Arial,sans-serif;--fm:"Fraunces",Georgia,serif}
+.tapa[data-d="cultura"] .cab-meta{font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.tapa[data-d="cultura"] .cabecera{border-bottom:1px solid var(--ink);padding-bottom:14px;margin-bottom:26px}
+.tapa[data-d="cultura"] .nombre{font-weight:400;font-style:italic;letter-spacing:-.04em}
+.tapa[data-d="cultura"] .lema{font-size:.72rem;text-transform:uppercase;letter-spacing:.22em;color:var(--accent)}
+.tapa[data-d="cultura"] .cuerpo,.tapa[data-d="cultura"] .principal{gap:34px}
+.tapa[data-d="cultura"] .volanta{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;color:var(--accent);font-weight:600;margin-bottom:8px}
+.tapa[data-d="cultura"] .titulo{font-weight:400;letter-spacing:-.02em}
+.tapa[data-d="cultura"] .n1 .titulo{font-size:clamp(2rem,6.4cqi,3.6rem);line-height:1.02}
+.tapa[data-d="cultura"] .n2 .titulo{font-size:1.4rem}
+.tapa[data-d="cultura"] .bajada{color:var(--muted);line-height:1.55}
+.tapa[data-d="cultura"] .n1 + .n1{border-top:1px solid var(--rule);padding-top:30px}
+.tapa[data-d="cultura"] .n2 .foto{aspect-ratio:1/1}
+.tapa[data-d="cultura"] .breves{border-top:2px solid var(--ink);padding-top:14px}
+.tapa[data-d="cultura"] .breves-tit{font-family:var(--fb);font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--accent2)}
+.tapa[data-d="cultura"] .n3{padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.tapa[data-d="cultura"] .n3 .titulo{font-style:italic;font-size:1.05rem}
 
 @media print{
   @page{margin:10mm}
@@ -457,9 +510,82 @@ const D = {
       {t:"Ascenso",b:"Tabla ajustadísima."},
       {t:"Esports",b:"Equipo local clasifica al mundial."}
     ]
+  },
+  tecnologia:{
+    label:"Tecnología", nombre:"Bit&Byte", lema:"> lo que viene, hoy_", precio:"$1.100", breves:"Changelog",
+    ticker:"Índice Tech +1,6%   |   Bitcoin US$ 71.200   |   Latencia media 18 ms   |   Banda ancha 520 Mbps   |   Uptime 99,98%",
+    pal:["#0b1020","#00e5a8","#7c5cff"],
+    n1:[
+      {v:"Inteligencia artificial",t:"Estrenan en el país un centro de datos pensado para entrenar modelos de IA",b:"La planta funcionará con energía renovable y promete reducir a la mitad la latencia de las empresas locales. Ya hay tres universidades en lista de espera."},
+      {v:"Ciberseguridad",t:"Una falla en una app de pagos dejó expuestos los datos de dos millones de usuarios",b:"La empresa corrigió el error en seis horas y recomienda actualizar a la última versión. Especialistas piden auditorías obligatorias."}
+    ],
+    n2:[
+      {v:"Hardware",t:"Llegan los primeros notebooks con baterías de dos días de autonomía",b:"Los chips de bajo consumo cambian las reglas del sector."},
+      {v:"Software libre",t:"Un proyecto argentino de código abierto supera las 50.000 estrellas",b:"Lo mantiene una comunidad de voluntarios en 30 países."},
+      {v:"Startups",t:"Una fintech porteña cierra una ronda de US$ 25 millones",b:"Usará los fondos para expandirse por la región."},
+      {v:"Videojuegos",t:"Un estudio local lanza su juego en todas las plataformas",b:"Tuvo 200.000 descargas en las primeras 48 horas."}
+    ],
+    n3:[
+      {t:"v4.2: nuevo modo oscuro",b:"Llega a todos los usuarios."},
+      {t:"Fibra óptica en 12 barrios",b:"Conexiones simétricas de 1 Gbps."},
+      {t:"Parche de seguridad crítico",b:"Actualizá hoy mismo."},
+      {t:"Hackatón en Córdoba",b:"48 horas, 300 programadores."},
+      {t:"Autos eléctricos",b:"Se duplican los puntos de carga."},
+      {t:"Nueva versión del navegador",b:"Más rápido y con menos consumo."},
+      {t:"Becas de programación",b:"Abren 5.000 cupos gratuitos."},
+      {t:"Drones agrícolas",b:"Ya monitorean 100.000 hectáreas."}
+    ]
+  },
+  retro:{
+    label:"Retro", nombre:"La Gaceta Porteña", lema:"Fundada en 1921 · Edición de la tarde", precio:"5 centavos", breves:"Telegramas",
+    pal:["#e9dcc0","#7a2e1b","#2a2118"],
+    n1:[
+      {v:"Obras públicas",t:"Quedó inaugurada la nueva línea de tranvías eléctricos hasta Flores",b:"Una multitud se congregó en la plaza para ver partir el primer coche, adornado con banderas. El intendente destacó que el servicio unirá el centro con los barrios en veinte minutos."},
+      {v:"Espectáculos",t:"El cinematógrafo estrena una película sonora y las colas dan la vuelta a la manzana",b:"La sala del Corrientes agotó todas las localidades de la semana. La crítica celebra la nitidez de las voces y la orquesta."}
+    ],
+    n2:[
+      {v:"Del puerto",t:"Arriba el vapor trasatlántico con mil doscientos pasajeros",b:"Entre ellos, una compañía de ópera que actuará en el Colón."},
+      {v:"Comercio",t:"Los precios del trigo se mantienen firmes en la Bolsa",b:"Los exportadores confían en una gran cosecha."},
+      {v:"Deportes",t:"Gran triunfo del equipo local en el campeonato",b:"Más de quince mil almas presenciaron el encuentro."},
+      {v:"Ciencias",t:"Un telescopio nuevo fue instalado en el Observatorio",b:"Permitirá estudiar los astros con mayor detalle."}
+    ],
+    n3:[
+      {t:"Mañana, lluvias",b:"Según el Servicio Meteorológico."},
+      {t:"Baile en el Club Social",b:"Sábado a las nueve de la noche."},
+      {t:"Nuevos autobuses",b:"Recorrerán el Bajo."},
+      {t:"Feria del libro",b:"Abre sus puertas el lunes."},
+      {t:"Remates",b:"Muebles finos en la calle Florida."},
+      {t:"Avisos",b:"Se necesita aprendiz de imprenta."},
+      {t:"Teatro Colón",b:"Función de gala el viernes."},
+      {t:"Cartas de lectores",b:"Página 8."}
+    ]
+  },
+  cultura:{
+    label:"Cultura", nombre:"Marginalia", lema:"Letras, artes y pensamiento", precio:"$2.000", breves:"Para leer, ver y escuchar",
+    pal:["#f1e4d3","#c4452d","#2f4a3f"],
+    n1:[
+      {v:"Literatura",t:"La novela que reescribe la historia íntima de una ciudad",b:"Con una prosa de frases largas y memoria afilada, la autora reconstruye cuatro generaciones de una familia de barrio. Una de las grandes sorpresas del año."},
+      {v:"Cine",t:"Un documental sobre las últimas salas de barrio llena los festivales",b:"Entre la nostalgia y el homenaje, el director sigue a los proyeccionistas que mantienen vivas las funciones de matiné."}
+    ],
+    n2:[
+      {v:"Artes visuales",t:"Una muestra reúne cien años de fotografía urbana",b:"Imágenes inéditas de archivo y obra contemporánea."},
+      {v:"Música",t:"El cuarteto de cámara que mezcla tango y electrónica",b:"Prepara un disco grabado en una vieja estación de tren."},
+      {v:"Teatro",t:"Vuelve a escena la obra que cambió la dramaturgia local",b:"Con nuevo elenco y una puesta más audaz."},
+      {v:"Ensayo",t:"Qué leemos cuando leemos en pantalla",b:"Una reflexión sobre la atención y la lectura lenta."}
+    ],
+    n3:[
+      {t:"Feria de editoriales independientes",b:"Tres días en el Centro Cultural."},
+      {t:"Ciclo de cine mudo con música en vivo",b:"Los jueves de octubre."},
+      {t:"Reedición de un clásico olvidado",b:"Con prólogo inédito."},
+      {t:"Taller de escritura breve",b:"Quedan pocas vacantes."},
+      {t:"Muestra en el Museo de Arte Moderno",b:"Hasta fin de mes."},
+      {t:"Podcast recomendado",b:"Historias de la lengua."},
+      {t:"Premio de poesía",b:"Se conocieron los finalistas."},
+      {t:"Noche de los museos",b:"Entrada libre y gratuita."}
+    ]
   }
 };
-const ORDEN = ["sensacionalista","formal","economico","politico","deportivo"];
+const ORDEN = ["sensacionalista","formal","economico","politico","deportivo","tecnologia","retro","cultura"];
 const MAX = {n1:2,n2:4,n3:8};
 const KEY = "armado-tapa-v1";
 
@@ -621,7 +747,7 @@ function render(){
     else cab.style.padding = "0 0 10px";
   }
   cab.append(meta, marca, editable("p","lema",e.lema,{"data-m":"lema"}));
-  if(d==="economico") cab.appendChild(editable("div","ticker",e.ticker,{"data-m":"ticker"}));
+  if(d==="economico"||d==="tecnologia") cab.appendChild(editable("div","ticker",e.ticker,{"data-m":"ticker"}));
   tapa.appendChild(cab);
   syncCab();
 
@@ -630,7 +756,7 @@ function render(){
     tapa.appendChild(v); return;
   }
   const cuerpo = el("div","cuerpo");
-  const aside = (d==="formal"||d==="politico") && c.n3>0 && (c.n1+c.n2)>0;
+  const aside = (d==="formal"||d==="politico"||d==="retro") && c.n3>0 && (c.n1+c.n2)>0;
   if(aside) cuerpo.classList.add("con-aside");
 
   if(c.n1+c.n2>0){
